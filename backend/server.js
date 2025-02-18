@@ -14,12 +14,13 @@ const master_adminRoutes = require("./routes/masteradmin");
 const payment_Routes = require("./routes/payment");
 
 const app = express();
-const PORT = 3000;
+
+// Use dynamic port for Railway
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-
 
 // Use Routes
 app.use("/users", userRoutes);
@@ -28,10 +29,9 @@ app.use("/complaints", complaintRoutes);
 app.use("/admins", adminRoutes);
 
 app.use("/masters", master_adminRoutes);
-
-
 app.use("/payments", payment_Routes);
 
-
-// **Start Server**
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// Start the server on the dynamically assigned port
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
