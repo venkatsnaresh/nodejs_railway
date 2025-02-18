@@ -1,0 +1,94 @@
+sequenceDiagram
+    participant MasterAdmin as Master Admin
+    participant API as API
+    participant DB as Database
+
+    %% Master Admin logs in (expected)
+    MasterAdmin->>API: POST /masters/login
+    API->>DB: Verify Master Admin credentials
+    DB->>API: Return 200 OK (verification success)
+    API->>MasterAdmin: Return 200 OK (JWT Token)
+
+    %% Master Admin logs in (unexpected - invalid credentials)
+    MasterAdmin->>API: POST /masters/login
+    API->>DB: Verify Master Admin credentials
+    DB->>API: Return 401 Unauthorized (invalid credentials)
+    API->>MasterAdmin: Return 401 Unauthorized (Unauthorized)
+
+    %% Master Admin creates a new admin (expected)
+    MasterAdmin->>API: POST /masters/admins_create
+    API->>DB: Add new admin data
+    DB->>API: Return 201 Created (admin created)
+    API->>MasterAdmin: Return 201 Created (Admin Created)
+
+    %% Master Admin creates a new admin (unexpected - invalid data)
+    MasterAdmin->>API: POST /masters/admins_create
+    API->>DB: Validate admin data
+    DB->>API: Return 400 Bad Request (invalid data)
+    API->>MasterAdmin: Return 400 Bad Request (Invalid Data)
+
+    %% Master Admin fetches all admins (expected)
+    MasterAdmin->>API: GET /masters/admins_data
+    API->>DB: Fetch all admin records
+    DB->>API: Return 200 OK (admin records)
+    API->>MasterAdmin: Return 200 OK (Admin Data)
+
+    %% Master Admin fetches a single admin by ID (expected)
+    MasterAdmin->>API: GET /masters/admins_data/:id
+    API->>DB: Fetch admin record by ID
+    DB->>API: Return 200 OK (admin record)
+    API->>MasterAdmin: Return 200 OK (Admin Data)
+
+    %% Master Admin fetches a single admin by ID (unexpected - admin not found)
+    MasterAdmin->>API: GET /masters/admins_data/:id
+    API->>DB: Check if admin exists by ID
+    DB->>API: Return 404 Not Found (admin not found)
+    API->>MasterAdmin: Return 404 Not Found (Admin Not Found)
+
+    %% Master Admin updates an admin (expected)
+    MasterAdmin->>API: PUT /masters/admins_update/:id
+    API->>DB: Update admin data
+    DB->>API: Return 200 OK (admin updated)
+    API->>MasterAdmin: Return 200 OK (Admin Updated)
+
+    %% Master Admin updates an admin (unexpected - invalid data)
+    MasterAdmin->>API: PUT /masters/admins_update/:id
+    API->>DB: Validate admin data
+    DB->>API: Return 400 Bad Request (invalid data)
+    API->>MasterAdmin: Return 400 Bad Request (Invalid Data)
+
+    %% Master Admin deletes an admin (expected)
+    MasterAdmin->>API: DELETE /masters/admins_delete/:id
+    API->>DB: Delete admin by ID
+    DB->>API: Return 200 OK (admin deleted)
+    API->>MasterAdmin: Return 200 OK (Admin Deleted)
+
+    %% Master Admin deletes an admin (unexpected - admin not found)
+    MasterAdmin->>API: DELETE /masters/admins_delete/:id
+    API->>DB: Check if admin exists
+    DB->>API: Return 404 Not Found (admin not found)
+    API->>MasterAdmin: Return 404 Not Found (Admin Not Found)
+
+    %% Master Admin views complaints data (expected)
+    MasterAdmin->>API: GET /masters/complaints_data
+    API->>DB: Fetch all complaints based on filters
+    DB->>API: Return 200 OK (complaint records)
+    API->>MasterAdmin: Return 200 OK (Complaints Data)
+
+    %% Master Admin deletes a complaint (expected)
+    MasterAdmin->>API: DELETE /masters/complaint_delete/:id
+    API->>DB: Delete complaint by ID
+    DB->>API: Return 200 OK (complaint deleted)
+    API->>MasterAdmin: Return 200 OK (Complaint Deleted)
+
+    %% Master Admin deletes a complaint (unexpected - complaint not found)
+    MasterAdmin->>API: DELETE /masters/complaint_delete/:id
+    API->>DB: Check if complaint exists
+    DB->>API: Return 404 Not Found (complaint not found)
+    API->>MasterAdmin: Return 404 Not Found (Complaint Not Found)
+    
+    %% Master Admin logs out (expected)
+    MasterAdmin->>API: POST /masters/logout
+    API->>DB: Invalidate Master Admin session
+    DB->>API: Return 200 OK (session invalidated)
+    API->>MasterAdmin: Return 200 OK (Logged out)

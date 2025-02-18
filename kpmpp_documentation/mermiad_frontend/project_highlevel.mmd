@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant User as Frontend (React)
+    participant Backend as Node.js (Express)
+    participant DB as MySQL
+    participant Auth as Authentication API
+    participant Payment as Razorpay
+
+    User->>Backend: POST /request (post request)
+    Backend->>DB: Insert request into database
+    DB-->>Backend: Success
+    Backend->>User: Return success response
+
+    User->>Backend: GET /requests (fetch all requests)
+    Backend->>DB: Retrieve all requests
+    DB-->>Backend: Return all requests
+    Backend->>User: Return list of requests
+
+    User->>Auth: POST /auth/login (user credentials)
+    Auth-->>User: Return auth token
+
+    User->>Payment: POST /payment (payment data)
+    Payment-->>User: Return payment link/status
+
+    User->>Backend: POST /payment/webhook (payment confirmation)
+    Backend->>Payment: Verify payment status
+    Payment-->>Backend: Return payment status
+    Backend->>DB: Update payment status in database
+    DB-->>Backend: Success
+    Backend->>User: Return payment success response

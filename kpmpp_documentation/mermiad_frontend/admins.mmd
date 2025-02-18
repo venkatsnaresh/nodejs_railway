@@ -1,0 +1,15 @@
+graph TD;
+  A[🎭 Admin Logs In] -->|✔ Valid Credentials| B[📊 View Complaint Stats];
+  A -->|❌ Invalid Credentials| C[🔄 Redirect to Login];
+  B -->|✔ Complaint Data Available| D[🔧 Update Complaint Status];
+  D -->|✅ Status Updated| E[✔️ Successful Update];
+  D -->|❌ Failed Update| F[⚠ Show Error];
+  E -->|📈 View Complaint Stats| B;
+  F -->|🔄 Retry Update| D;
+
+  style A fill:#ffcc00,stroke:#000,stroke-width:2px;
+  style B fill:#66ccff,stroke:#000,stroke-width:2px;
+  style C fill:#ff6666,stroke:#000,stroke-width:2px;
+  style D fill:#66ff66,stroke:#000,stroke-width:2px;
+  style E fill:#66ffcc,stroke:#000,stroke-width:2px;
+  style F fill:#ff9966,stroke:#000,stroke-width:2px;

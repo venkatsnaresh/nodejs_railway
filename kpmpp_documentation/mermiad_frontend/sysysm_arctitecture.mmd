@@ -1,0 +1,34 @@
+graph TD;
+
+    subgraph Frontend [React]
+        A1[User Interface] --> A2[Authentication Handling]
+        A1 --> A3[Form Submissions & API Requests]
+        A1 --> A4[Complaint Status Display]
+        A1 --> A5[User Subscription Management]
+    end
+
+    subgraph Backend [Node]
+        B1[Business Logic] --> B2[API Processing]
+        B1 --> B3[User Authentication]
+        B1 --> B4[Complaint Handling]
+        B1 --> B5[Admin Privileges]
+        B2 -->|Secure Communication| DB[MySQL]
+    end
+
+    subgraph Database [MySQL]
+        DB1[User Details Storage]
+        DB2[Complaint Records]
+        DB3[Admin Information]
+        DB -->|Ensures Data Integrity| DB1
+        DB --> DB2
+        DB --> DB3
+    end
+
+    %% Connections
+    A2 -->|Uses| B3
+    B3 -->|Uses| DB1
+    B4 --> DB2
+    B5 --> DB3
+    A3 --> B2
+    A4 --> B4
+    A5 --> DB

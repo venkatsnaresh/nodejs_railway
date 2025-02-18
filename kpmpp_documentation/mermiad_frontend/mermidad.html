@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid Diagram Example</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Include the Mermaid library -->
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+</head>
+<body>
+    <div class="container-fluid mt-5">
+        <h1 class="text-center mb-4">High-Level Overview</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-1 col-xl-7 col-xxl-6 p-4 border rounded shadow-sm bg-light">
+                <div class="mermaid">
+                    graph TD;
+                    
+                    subgraph "Payment and Subscription"
+                      q[Create Order] --> r[Get Order] --> s[Pay];
+                    end 
+                    
+                    subgraph "Users"
+                      A[User Logs In] --> B[Subscribe] --> C[Submit Complaint] --> D[View Complaint Status];
+                    end
+                    
+                    subgraph "Admin Panel"
+                      J[Admin Logs In] --> K[View Complaints] --> L[Update Complaint Status];
+                    end
+                    
+                    subgraph "Master Admin Panel"
+                      N[Master Admin Logs In] --> O[Manage Users & Admins] --> P[Full System Control];
+                    end
+                </div>
+            </div>
+        </div>
+
+
+        <h1 class="text-center mb-4">High-Level Overview</h1>
+        
+        <div class="row justify-content-center">
+            <div class="col-12 p-4 border rounded shadow-sm bg-light">
+                <div class="mermaid">
+                 
+
+                    mindmap
+  root((KPMPP Complaint Management System))
+    Introduction
+      A1[📄 Purpose]
+      A2[🔒 Scope]
+      A3[📚 Definitions, Acronyms, and Abbreviations]
+    
+    Functional Requirements
+      B1[👥 User Roles and Permissions]
+        B1a[👤 Customers]
+        B1b[🧑‍💼 Admins]
+        B1c[👑 Master Admins]
+      B2[📝 Complaint Management]
+      B3[🔐 Subscription Management]
+      B4[🛠️ System Architecture & Modules]
+        B4a[🎨 UI/UX Design]
+        B4b[💻 Front-end React.js]
+        B4c[⚙️ Back-end Node.js & MySQL]
+        B4d[🔑 Authentication JWT]
+        B4e[💳 Payment Gateway Integration]
+        B4f[🗣️ Complaint Module]
+        B4g[📊 User Dashboard & Admin Panel]
+
+    Non-Functional Requirements
+      C1[🔒 Security]
+      C2[⚡ Performance]
+      C3[📈 Scalability]
+      C4[📱 Usability]
+    
+    API Endpoints
+      D1[🔑 Authentication APIs]
+        D1a[🚪 Register a new user]
+        D1b[🔑 User/Admin/Master Admin login]
+        D1c[🚪 Logout user]
+      D2[📝 Complaint APIs]
+        D2a[📝 Submit a new complaint]
+        D2b[🔍 View complaint status]
+        D2c[✏️ Update complaint status]
+        D2d[❌ Delete complaint]
+      D3[💳 Subscription & Donation API]
+        D3a[💳 Initiate payment via Razorpay]
+        D3b[🔍 Get subscription status]
+      D4[🧑‍💼 Admin APIs]
+        D4a[🔍 View all complaints]
+        D4b[✏️ Update complaint status]
+        D4c[❌ Delete complaint]
+      D5[👑 Master Admin APIs]
+        D5a[🔍 View all admins]
+        D5b[➕ Add an admin]
+        D5c[❌ Remove an admin]
+        D5d[🔍 View all customers]
+      D6[👤 User APIs]
+        D6a[🧑‍💼 Fetch user profile details]
+        D6b[✏️ Update user profile]
+        D6c[❌ Delete user account]
+        D6d[📋 List all registered users]
+    
+    Testing Strategy
+      E1[🛠️ Postman Manual API Testing]
+      E2[⚙️ SuperTest Automated Backend Testing]
+      E3[🎭 Pytest Frontend Testing]
+
+    Deployment Plan
+      F1[💰 Budget-Based Hosting Options]
+        F1a[💸 Low Budget: Shared hosting, Vercel/Netlify]
+        F1b[💵 Medium Budget: AWS EC2/Google Cloud, Cloudflare Pages]
+        F1c[💰 High Budget: Kubernetes, AWS/GCP/Azure]
+      F2[🔑 Authentication Services]
+        F2a[AWS Cognito, Firebase Auth]
+        F2b[Self-hosted Authentication]
+
+    Conclusion
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+
+
+
+
+    <h1 class="text-center mb-4">  high level  architecture</h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+                sequenceDiagram
+                participant User as Frontend (React)
+                participant Backend as Node.js (Express)
+                participant DB as MySQL
+                participant Auth as Authentication API
+                participant Payment as payment gateway
+            
+                User->>Backend: POST /request (post request)
+                Backend->>DB: Insert request into database
+                DB-->>Backend: Success
+                Backend->>User: Return success response
+            
+                User->>Backend: GET /requests (fetch all requests)
+                Backend->>DB: Retrieve all requests
+                DB-->>Backend: Return all requests
+                Backend->>User: Return list of requests
+            
+                User->>Auth: POST /auth/login (user credentials)
+                Auth-->>User: Return auth token
+            
+                User->>Payment: POST /payment (payment data)
+                Payment-->>User: Return payment link/status
+            
+                User->>Backend: POST /payment/webhook (payment confirmation)
+                Backend->>Payment: Verify payment status
+                Payment-->>Backend: Return payment status
+                Backend->>DB: Update payment status in database
+                DB-->>Backend: Success
+                Backend->>User: Return payment success response
+            
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">architecture</h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+                graph TD;
+
+                subgraph Frontend_User [User React App]
+                    A1[User Interface] --> A2[Authentication Handling]
+                    A1 --> A3[Form Submissions & API Requests]
+                    A1 --> A4[Complaint Status Display]
+                    A1 --> A5[User Subscription Management]
+                end
+            
+                subgraph Backend [Node.js Backend]
+                    B1[Business Logic] --> B2[API Processing]
+                    B1 --> B3[User Authentication]
+                    B1 --> B4[Complaint Handling]
+                    B2 -->|Secure Communication| DB[MySQL]
+                end
+            
+                subgraph Database [MySQL Database]
+                    DB1[User Details Storage]
+                    DB2[Complaint Records]
+                    DB -->|Ensures Data Integrity| DB1
+                    DB --> DB2
+                end
+            
+                %% Connections
+                A2 -->|Uses| B3
+                B3 -->|Uses| DB1
+                A3 --> B2
+                A4 --> B4
+                A5 --> DB
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4"> admins architecture</h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+                graph TD;
+
+                subgraph Frontend_Admin [Admin React App]
+                    A1[Admin Interface] --> A2[Admin Authentication]
+                    A1 --> A3[Admin Dashboard]
+                    A1 --> A4[Complaint Management]
+                    A4 --> A5[Update Complaints]
+                end
+            
+                subgraph Backend [Node.js Backend]
+                    B1[Business Logic] --> B2[API Processing]
+                    B1 --> B3[Admin Authentication]
+                    B1 --> B4[Complaint Handling]
+                    B4 --> B5[Update Complaints Logic]
+                    B2 -->|Secure Communication| DB[MySQL]
+                end
+            
+                subgraph Database [MySQL Database]
+                    DB1[User Details Storage]
+                    DB2[Complaint Records]
+                    DB3[Admin Information]
+                    DB -->|Ensures Data Integrity| DB1
+                    DB --> DB2
+                    DB --> DB3
+                end
+            
+                %% Connections
+                A2 -->|Uses| B3
+                B3 -->|Uses| DB3
+                A3 --> B2
+                A4 --> B4
+                A5 -->|Updates| DB2
+            
+       
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">  masters architecture</h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+       
+                graph TD;
+
+                subgraph Frontend_Master [Master React App]
+                    A1[Master Interface] --> A2[Master Authentication]
+                    A1 --> A3[Master Dashboard]
+                    A1 --> A4[Master Control Panel]
+                    A4 --> A5[Manage Critical Operations]
+                end
+            
+                subgraph Backend [Node.js Backend]
+                    B1[Business Logic] --> B2[API Processing]
+                    B1 --> B3[Master Authentication]
+                    B1 --> B4[Master Control Handling]
+                    B4 --> B5[Manage Critical Operations Logic]
+                    B2 -->|Secure Communication| DB[MySQL]
+                end
+            
+                subgraph Database [MySQL Database]
+                    DB1[User Details Storage]
+                    DB2[Complaint Records]
+                    DB3[Admin Information]
+                    DB4[Master Information]
+                    DB -->|Ensures Data Integrity| DB1
+                    DB --> DB2
+                    DB --> DB3
+                    DB --> DB4
+                end
+            
+                %% Connections
+                A2 -->|Uses| B3
+                B3 -->|Uses| DB4
+                A3 --> B2
+                A4 --> B4
+                A5 -->|Updates| DB4
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4"> payment  architecture</h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+                graph TD;
+
+                subgraph Frontend_User [User React App]
+                    A1[User Interface] --> A2[Authentication Handling]
+                    A1 --> A3[Make Donations]
+                    A1 --> A4[Manage Subscriptions]
+                end
+            
+                subgraph Backend [Node.js API]
+                    B1[API Processing] --> B2[Handle Donations via Razorpay]
+                    B1 --> B3[Manage Subscriptions]
+                end
+            
+                subgraph Database [MySQL Database]
+                    DB1[User Details]
+                    DB2[Donation Records]
+                    DB3[Subscription Records]
+                    DB --> DB1
+                    DB --> DB2
+                    DB --> DB3
+                end
+            
+                %% Connections
+                A2 -->|Uses| B1
+                A3 -->|Donates via| B2
+                A4 -->|Manages| B3
+                B2 -->|Stores| DB2
+                B3 -->|Stores| DB3
+                B2 -->|Integrates with| Razorpay[Razorpay API]
+            
+       
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">front end logic deisgn </h1>
+
+
+    <h1 class="text-center mb-4">users logic </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+                graph TD;
+                A[🎭 User Logs In] -->|✔ Registered | B[📨 Submit Complaint];
+                A -->|❌ Not Registered | C[🔄 Redirect to Login/Signup];
+                B -->|✔ Subscribed | D[📌 View Complaint Status];
+                B -->|❌ Not Subscribed | E[⚠ Show Subscription Alert];
+                E -->|💳 Subscribe | G[💰 Payment Processing];
+                G -->|✅ Success | H[🔓 Unlock Subscription Features];
+                G -->|❌ Failed | I[🔁 Retry Payment];
+              
+                style A fill:#ffcc00,stroke:#000,stroke-width:2px;
+                style B fill:#66ccff,stroke:#000,stroke-width:2px;
+                style C fill:#ff6666,stroke:#000,stroke-width:2px;
+                style D fill:#66ff66,stroke:#000,stroke-width:2px;
+                style E fill:#ff9966,stroke:#000,stroke-width:2px;
+                style G fill:#ffff66,stroke:#000,stroke-width:2px;
+                style H fill:#66ffcc,stroke:#000,stroke-width:2px;
+                style I fill:#ff6699,stroke:#000,stroke-width:2px;
+              
+              
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <h1 class="text-center mb-4">admins   logic </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+                graph TD;
+                A[🎭 Admin Logs In] -->|✔ Valid Credentials| B[📊 View Complaint Stats];
+                A -->|❌ Invalid Credentials| C[🔄 Redirect to Login];
+                B -->|✔ Complaint Data Available| D[🔧 Update Complaint Status];
+                D -->|✅ Status Updated| E[✔️ Successful Update];
+                D -->|❌ Failed Update| F[⚠ Show Error];
+                E -->|📈 View Complaint Stats| B;
+                F -->|🔄 Retry Update| D;
+              
+                style A fill:#ffcc00,stroke:#000,stroke-width:2px;
+                style B fill:#66ccff,stroke:#000,stroke-width:2px;
+                style C fill:#ff6666,stroke:#000,stroke-width:2px;
+                style D fill:#66ff66,stroke:#000,stroke-width:2px;
+                style E fill:#66ffcc,stroke:#000,stroke-width:2px;
+                style F fill:#ff9966,stroke:#000,stroke-width:2px;
+              
+
+               
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">masters  logic </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+                graph TD;
+                A[🎭 Master Admin Logs In] -->|✔ Valid Credentials| B[📊 View Dashboard];
+                A -->|❌ Invalid Credentials| C[🔄 Redirect to Login];
+                
+                B --> D[🛠 Manage Admins];
+                B --> E[💼 Manage Complaints];
+                B --> F[👥 Manage Users];
+                
+                D -->|➕ Create Admin| G[📋 Enter Admin Details];
+                D -->|🔍 View Admins| H[📜 List of Admins];
+                D -->|✏ Update Admin| I[🔧 Edit Admin Details];
+                D -->|❌ Delete Admin| J[🗑️ Remove Admin];
+                
+                E -->|📑 View All Complaints| K[📊 Complaints List];
+                E -->|✏ Update Complaints| L[🔧 Edit Complaint Status];
+                E -->|❌ Delete Complaints| M[🗑️ Remove Complaint];
+                
+                F -->|🔍 View Users| N[📜 List of Users];
+                F -->|❌ Delete User| O[🗑️ Remove User];
+                
+                G -->|✅ Admin Created| H;
+                I -->|✅ Admin Updated| H;
+                J -->|✅ Admin Deleted| H;
+                
+                K -->|✔️ View Details| L;
+                L -->|✅ Status Updated| K;
+                M -->|✅ Complaint Deleted| K;
+                
+                N -->|✔️ View User Details| O;
+                O -->|✅ User Deleted| N;
+                
+                %% Styling for smoother, modern look
+                style A fill:#ffcc00,stroke:#000,stroke-width:2px;
+                style B fill:#66ccff,stroke:#000,stroke-width:2px;
+                style C fill:#ff6666,stroke:#000,stroke-width:2px;
+                style D fill:#66ff66,stroke:#000,stroke-width:2px;
+                style E fill:#66ff99,stroke:#000,stroke-width:2px;
+                style F fill:#ffcc66,stroke:#000,stroke-width:2px;
+                style G fill:#ffff66,stroke:#000,stroke-width:2px;
+                style H fill:#66ffcc,stroke:#000,stroke-width:2px;
+                style I fill:#ff9966,stroke:#000,stroke-width:2px;
+                style J fill:#ff6699,stroke:#000,stroke-width:2px;
+                style K fill:#ffccff,stroke:#000,stroke-width:2px;
+                style L fill:#66ff66,stroke:#000,stroke-width:2px;
+                style M fill:#ff6666,stroke:#000,stroke-width:2px;
+                style N fill:#ffccff,stroke:#000,stroke-width:2px;
+                style O fill:#ff6699,stroke:#000,stroke-width:2px;
+                
+                %% Adding smooth transitions between blocks
+                classDef smooth fill:#f9f9f9,stroke:#aaa,stroke-width:1px;
+                class A,B,C,D,E,F,G,H,I,J,K,L,M,N,O smooth;
+                
+                %% Optional: Adding a box around the flow chart for a more unified appearance
+                class B,D,E,F smooth;
+              
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">api end points</h1>
+
+
+
+    <h1 class="text-center mb-4">users  logic </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+                sequenceDiagram
+                participant User as User
+                participant API as API
+                participant DB as Database
+                participant Razorpay as Razorpay
+            
+                %% User registration (expected)
+                User->>API: POST /users/signup
+                API->>DB: Validate user data
+                DB->>API: Return 200 OK (user created)
+                API->>User: Return 201 Created (User Registered)
+            
+                %% User registration (unexpected - missing data)
+                User->>API: POST /users/signup
+                API->>DB: Validate user data
+                DB->>API: Return 400 Bad Request (missing data)
+                API->>User: Return 400 Bad Request (Missing Data)
+            
+                %% User login (expected)
+                User->>API: POST /users/login
+                API->>DB: Verify user credentials
+                DB->>API: Return 200 OK (user data)
+                API->>User: Return 200 OK (JWT Token)
+            
+                %% User login (unexpected - invalid credentials)
+                User->>API: POST /users/login
+                API->>DB: Verify user credentials
+                DB->>API: Return 401 Unauthorized (invalid credentials)
+                API->>User: Return 401 Unauthorized (Unauthorized)
+            
+                %% User password reset request (expected)
+                User->>API: POST /users/forgot-password
+                API->>DB: Send password reset email
+                DB->>API: Return 200 OK (email sent)
+                API->>User: Return 200 OK (Reset Email Sent)
+            
+                %% User password reset request (unexpected - email not found)
+                User->>API: POST /users/forgot-password
+                API->>DB: Check email in database
+                DB->>API: Return 404 Not Found (email not found)
+                API->>User: Return 404 Not Found (Email Not Found)
+            
+                %% User resets password (expected)
+                User->>API: POST /users/reset-password
+                API->>DB: Reset user password
+                DB->>API: Return 200 OK (password reset)
+                API->>User: Return 200 OK (Password Reset)
+            
+                %% User resets password (unexpected - invalid token)
+                User->>API: POST /users/reset-password
+                API->>DB: Validate reset token
+                DB->>API: Return 400 Bad Request (invalid token)
+                API->>User: Return 400 Bad Request (Invalid Token)
+            
+                %% User initiates payment for subscription (expected)
+                User->>API: POST /pay
+                API->>Razorpay: Create payment order
+                Razorpay->>API: Return 200 OK (payment order ID)
+                API->>User: Return 200 OK (Payment Order ID)
+            
+                %% User makes payment (expected)
+                User->>Razorpay: Complete payment
+                Razorpay->>API: Send webhook event (payment success)
+                API->>DB: Update subscription status
+                DB->>API: Return 200 OK (subscription updated)
+                API->>User: Return 200 OK (Subscription Activated)
+            
+                %% User initiates payment for subscription (unexpected - payment failure)
+                User->>API: POST /pay
+                API->>Razorpay: Create payment order
+                Razorpay->>API: Return 400 Bad Request (payment failure)
+                API->>User: Return 400 Bad Request (Payment Failed)
+            
+                %% User checks subscription status (expected)
+                User->>API: POST /users/complaint_status/
+                API->>DB: Fetch complaint status for user
+                DB->>API: Return 200 OK (complaint status)
+                API->>User: Return 200 OK (Complaint Status)
+            
+                %% User checks subscription status (unexpected - complaint not found)
+                User->>API: POST /users/complaint_status/
+                API->>DB: Fetch complaint status for user
+                DB->>API: Return 404 Not Found (complaint not found)
+                API->>User: Return 404 Not Found (Complaint Not Found)
+            
+                %% User logs out (expected)
+                User->>API: POST /users/logout
+                API->>DB: Invalidate user session
+                DB->>API: Return 200 OK (session invalidated)
+                API->>User: Return 200 OK (Logged Out)
+            
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <h1 class="text-center mb-4">api end points</h1>
+
+
+
+    <h1 class="text-center mb-4">admins logic </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+                sequenceDiagram
+                participant Admin as Admin
+                participant API as API
+                participant DB as Database
+            
+                %% Admin logs in (expected)
+                Admin->>API: POST /admins/login
+                API->>DB: Verify Admin credentials
+                DB->>API: Return 200 OK (verification success)
+                API->>Admin: Return 200 OK (JWT Token)
+            
+                %% Admin logs in (unexpected - invalid credentials)
+                Admin->>API: POST /admins/login
+                API->>DB: Verify Admin credentials
+                DB->>API: Return 401 Unauthorized (invalid credentials)
+                API->>Admin: Return 401 Unauthorized (Unauthorized)
+            
+                %% Admin resets password (expected)
+                Admin->>API: POST /admins/reset-password
+                API->>DB: Validate token
+                DB->>API: Return 200 OK (token validated)
+                API->>DB: Update password
+                DB->>API: Return 200 OK (password updated)
+                API->>Admin: Return 200 OK (Password Updated)
+            
+                %% Admin resets password (unexpected - invalid token)
+                Admin->>API: POST /admins/reset-password
+                API->>DB: Validate token
+                DB->>API: Return 400 Bad Request (invalid token)
+                API->>Admin: Return 400 Bad Request (Invalid Token)
+            
+                %% Admin fetches complaint stats (expected)
+                Admin->>API: GET /admins/complaint_stats
+                API->>DB: Fetch complaint stats
+                DB->>API: Return 200 OK (stats fetched)
+                API->>Admin: Return 200 OK (Complaint Stats)
+            
+                %% Admin updates complaint (expected)
+                Admin->>API: PUT /admins/update_complaint
+                API->>DB: Update complaint status
+                DB->>API: Return 200 OK (complaint updated)
+                API->>Admin: Return 200 OK (Complaint Updated)
+            
+                %% Admin updates complaint (unexpected - invalid status)
+                Admin->>API: PUT /admins/update_complaint
+                API->>DB: Check if status is valid
+                DB->>API: Return 400 Bad Request (invalid status)
+                API->>Admin: Return 400 Bad Request (Invalid Status)
+            
+                %% Admin deletes a complaint (expected)
+                Admin->>API: DELETE /admins/complaint_delete
+                API->>DB: Delete complaint
+                DB->>API: Return 200 OK (complaint deleted)
+                API->>Admin: Return 200 OK (Complaint Deleted)
+            
+                %% Admin deletes a complaint (unexpected - complaint not found)
+                Admin->>API: DELETE /admins/complaint_delete
+                API->>DB: Check if complaint exists
+                DB->>API: Return 404 Not Found (complaint not found)
+                API->>Admin: Return 404 Not Found (Complaint Not Found)
+                
+                %% Admin logs out (expected)
+                Admin->>API: POST /admins/logout
+                API->>DB: Invalidate Admin session
+                DB->>API: Return 200 OK (session invalidated)
+                API->>Admin: Return 200 OK (Logged out)
+            
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">api end points</h1>
+
+
+
+    <h1 class="text-center mb-4">masters api  logic </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+                sequenceDiagram
+                participant MasterAdmin as Master Admin
+                participant API as API
+                participant DB as Database
+            
+                %% Master Admin logs in (expected)
+                MasterAdmin->>API: POST /masters/login
+                API->>DB: Verify Master Admin credentials
+                DB->>API: Return 200 OK (verification success)
+                API->>MasterAdmin: Return 200 OK (JWT Token)
+            
+                %% Master Admin logs in (unexpected - invalid credentials)
+                MasterAdmin->>API: POST /masters/login
+                API->>DB: Verify Master Admin credentials
+                DB->>API: Return 401 Unauthorized (invalid credentials)
+                API->>MasterAdmin: Return 401 Unauthorized (Unauthorized)
+            
+                %% Master Admin creates a new admin (expected)
+                MasterAdmin->>API: POST /masters/admins_create
+                API->>DB: Add new admin data
+                DB->>API: Return 201 Created (admin created)
+                API->>MasterAdmin: Return 201 Created (Admin Created)
+            
+                %% Master Admin creates a new admin (unexpected - invalid data)
+                MasterAdmin->>API: POST /masters/admins_create
+                API->>DB: Validate admin data
+                DB->>API: Return 400 Bad Request (invalid data)
+                API->>MasterAdmin: Return 400 Bad Request (Invalid Data)
+            
+                %% Master Admin fetches all admins (expected)
+                MasterAdmin->>API: GET /masters/admins_data
+                API->>DB: Fetch all admin records
+                DB->>API: Return 200 OK (admin records)
+                API->>MasterAdmin: Return 200 OK (Admin Data)
+            
+                %% Master Admin fetches a single admin by ID (expected)
+                MasterAdmin->>API: GET /masters/admins_data/:id
+                API->>DB: Fetch admin record by ID
+                DB->>API: Return 200 OK (admin record)
+                API->>MasterAdmin: Return 200 OK (Admin Data)
+            
+                %% Master Admin fetches a single admin by ID (unexpected - admin not found)
+                MasterAdmin->>API: GET /masters/admins_data/:id
+                API->>DB: Check if admin exists by ID
+                DB->>API: Return 404 Not Found (admin not found)
+                API->>MasterAdmin: Return 404 Not Found (Admin Not Found)
+            
+                %% Master Admin updates an admin (expected)
+                MasterAdmin->>API: PUT /masters/admins_update/:id
+                API->>DB: Update admin data
+                DB->>API: Return 200 OK (admin updated)
+                API->>MasterAdmin: Return 200 OK (Admin Updated)
+            
+                %% Master Admin updates an admin (unexpected - invalid data)
+                MasterAdmin->>API: PUT /masters/admins_update/:id
+                API->>DB: Validate admin data
+                DB->>API: Return 400 Bad Request (invalid data)
+                API->>MasterAdmin: Return 400 Bad Request (Invalid Data)
+            
+                %% Master Admin deletes an admin (expected)
+                MasterAdmin->>API: DELETE /masters/admins_delete/:id
+                API->>DB: Delete admin by ID
+                DB->>API: Return 200 OK (admin deleted)
+                API->>MasterAdmin: Return 200 OK (Admin Deleted)
+            
+                %% Master Admin deletes an admin (unexpected - admin not found)
+                MasterAdmin->>API: DELETE /masters/admins_delete/:id
+                API->>DB: Check if admin exists
+                DB->>API: Return 404 Not Found (admin not found)
+                API->>MasterAdmin: Return 404 Not Found (Admin Not Found)
+            
+                %% Master Admin views complaints data (expected)
+                MasterAdmin->>API: GET /masters/complaints_data
+                API->>DB: Fetch all complaints based on filters
+                DB->>API: Return 200 OK (complaint records)
+                API->>MasterAdmin: Return 200 OK (Complaints Data)
+            
+                %% Master Admin deletes a complaint (expected)
+                MasterAdmin->>API: DELETE /masters/complaint_delete/:id
+                API->>DB: Delete complaint by ID
+                DB->>API: Return 200 OK (complaint deleted)
+                API->>MasterAdmin: Return 200 OK (Complaint Deleted)
+            
+                %% Master Admin deletes a complaint (unexpected - complaint not found)
+                MasterAdmin->>API: DELETE /masters/complaint_delete/:id
+                API->>DB: Check if complaint exists
+                DB->>API: Return 404 Not Found (complaint not found)
+                API->>MasterAdmin: Return 404 Not Found (Complaint Not Found)
+                
+                %% Master Admin logs out (expected)
+                MasterAdmin->>API: POST /masters/logout
+                API->>DB: Invalidate Master Admin session
+                DB->>API: Return 200 OK (session invalidated)
+                API->>MasterAdmin: Return 200 OK (Logged out)
+            
+               
+            
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">api end points</h1>
+
+
+
+    <h1 class="text-center mb-4">payment logic </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+               
+            
+                sequenceDiagram
+                participant User as Frontend (React)
+                participant Backend as Node.js (Express)
+                participant DB as MySQL
+                participant Payment as Razorpay
+                participant Auth as User API
+                participant Mail as SendMail
+            
+                User->>Backend: POST /user/login (user credentials)
+                Backend->>Auth: Authenticate user (check credentials)
+                Auth-->>Backend: Return auth token (status: 200 OK)
+                Backend->>User: Return auth token (status: 200 OK)
+            
+                User->>Backend: POST /pay (payment request with amount)
+                Backend->>Payment: Create order (amount, currency, etc.)
+                Payment-->>Backend: Return order details (status: 200 OK)
+                Backend->>User: Return payment order details (status: 200 OK)
+            
+                User->>Payment: Make payment (via Razorpay)
+                Payment->>Backend: POST /webhook (payment confirmation)
+                Backend->>Backend: Validate webhook signature
+                alt Signature is valid
+                    Backend->>DB: Insert payment data (user_id, amount, category)
+                    DB-->>Backend: Success (status: 201 Created)
+                    
+                    alt Category: Subscription
+                        Backend->>DB: Insert subscription data (plan, expiring_on, status)
+                        DB-->>Backend: Subscription inserted (status: 201 Created)
+                        Backend->>User: Return subscription success (status: 200 OK)
+                    else Category: Donation
+                        Backend->>DB: Insert donation data (user_id, donated_amount)
+                        DB-->>Backend: Donation inserted (status: 201 Created)
+                        Backend->>Mail: Send thank you email (user email, amount)
+                        Mail-->>User: Send thank you email content (status: 200 OK)
+                        Backend->>User: Return donation success (status: 200 OK)
+                    end
+                else Signature is invalid
+                    Backend->>User: Return error (status: 400 Bad Request)
+                end
+            
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">api testing </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+
+                graph TD;
+                A[API Testing Framework] --> B[Load Testing]
+                A --> C[Stress Testing]
+                A --> D[Security Testing]
+                A --> E[Performance Testing]
+                A --> F[Integration Testing]
+            
+                B -->|Executes| B1[load.js]
+                C -->|Executes| C1[stress.js]
+                D -->|Executes| D1[security.js]
+                E -->|Executes| E1[performance.js]
+                F -->|Executes| F1[integration.js]
+            
+                B1 -->|Saves results| B2[load_results.txt]
+                C1 -->|Saves results| C2[stress_results.txt]
+                D1 -->|Saves results| D2[security_results.txt]
+                E1 -->|Saves results| E2[performance_results.txt]
+                F1 -->|Saves results| F2[integration_results.txt]
+            
+                subgraph Test Execution
+                    B1
+                    C1
+                    D1
+                    E1
+                    F1
+                end
+            
+                subgraph Test Reports
+                    B2
+                    C2
+                    D2
+                    E2
+                    F2
+                end
+            
+          
+            
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h1 class="text-center mb-4">front end  testing </h1>
+        
+    <div class="row justify-content-center">
+        <div class="col-12 p-4 border rounded shadow-sm bg-light">
+            <div class="mermaid">
+             
+                graph TD;
+                A[Test Plan for KPMPP Website] --> B[Scope]
+                B --> C[Testing Objectives]
+                C --> D[Test Items]
+                D --> E[Test Approach]
+                E --> F[Test Types]
+                F --> G[Test Environment]
+                G --> H[Test Execution Schedule]
+                H --> I[Test Deliverables]
+                I --> J[Defect Tracking]
+                J --> K[Approval]
+            
+                F --> F1[Functional Testing] --> F1A[Pytest for Automation]
+                F --> F2[Usability Testing]
+                F --> F3[Performance Testing] --> F3A[Pytest for Load Testing]
+                F --> F4[Security Testing] --> F4A[Pytest for Authentication Testing]
+                F --> F5[Compatibility Testing]
+            
+                D --> D1[Home Page]
+                D --> D2[About Page]
+                D --> D3[Media Section]
+                D --> D4[Login/Registration]
+                D --> D5[Subscription Dashboard]
+                D --> D6[Data Storage]
+            
+                H --> H1[Functional & Usability Testing]
+                H --> H2[Performance & Security Testing]
+                H --> H3[Compatibility & Regression Testing]
+            
+                I --> I1[Test Cases Document]
+                I --> I2[Bug Reports]
+                I --> I3[Test Summary Report]
+            
+                K --> K1[Reviewed by Project Stakeholders]
+            
+          
+            
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

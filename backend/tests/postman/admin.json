@@ -1,0 +1,150 @@
+{
+  "info": {
+    "_postman_id": "your-postman-id",
+    "name": "Admin API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin Login",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "if(pm.response.code === 200){",
+              "    var jsonData = pm.response.json();",
+              "    pm.collectionVariables.set(\"admin_token\", jsonData.token);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/admins/login",
+          "host": ["http://localhost:3000"],
+          "path": ["admins", "login"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"admin@example.com\", \"password\": \"yourpassword\"}"
+        }
+      }
+    },
+    {
+      "name": "Forgot Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/admins/forgot-password",
+          "host": ["http://localhost:3000"],
+          "path": ["admins", "forgot-password"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\": \"admin@example.com\"}"
+        }
+      }
+    },
+    {
+      "name": "Reset Password",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/admins/reset-password",
+          "host": ["http://localhost:3000"],
+          "path": ["admins", "reset-password"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"token\": \"your-reset-token\", \"newPassword\": \"newpassword123\"}"
+        }
+      }
+    },
+    {
+      "name": "Fetch Complaint Stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/admins/complaint_stats",
+          "host": ["http://localhost:3000"],
+          "path": ["admins", "complaint_stats"]
+        }
+      }
+    },
+    {
+      "name": "Fetch Complaints Data",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/admins/complaints_data",
+          "host": ["http://localhost:3000"],
+          "path": ["admins", "complaints_data"]
+        }
+      }
+    },
+    {
+      "name": "Update Complaint Status",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/admins/update_complaint",
+          "host": ["http://localhost:3000"],
+          "path": ["admins", "update_complaint"]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"complaint_id\": 1, \"status\": \"Resolved\"}"
+        }
+      }
+    },
+    {
+      "name": "Delete Complaint",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{admin_token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:3000/admins/complaint_delete/1",
+          "host": ["http://localhost:3000"],
+          "path": ["admins", "complaint_delete", "1"]
+        }
+      }
+    }
+  ]
+}

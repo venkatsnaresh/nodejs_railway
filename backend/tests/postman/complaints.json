@@ -1,0 +1,37 @@
+{
+    "info": {
+      "_postman_id": "e1d2c3b4-a567-8901-2345-6789abcdef01",
+      "name": "Complaints API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Insert Complaint",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "url": {
+            "raw": "http://localhost:3000/complaints/",
+            "host": [
+              "http://localhost:3000"
+            ],
+            "path": [
+              "complaints",
+              ""
+            ]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"fullName\": \"John\",\n  \"lastname\": \"Doe\",\n  \"adhar\": \"123456789012\",\n  \"voter\": \"VOTER12345\",\n  \"phno\": \"1234567890\",\n  \"hno\": \"10A\",\n  \"city\": \"CityName\",\n  \"mandal\": \"MandalName\",\n  \"district\": \"DistrictName\",\n  \"state\": \"StateName\",\n  \"country\": \"CountryName\",\n  \"pincode\": \"123456\",\n  \"professionCategory\": \"job\",\n  \"mainProfession\": \"Engineer\",\n  \"subProfession\": \"Software\",\n  \"organization\": {\n    \"name\": \"OrgName\",\n    \"city\": \"OrgCity\",\n    \"phone\": \"9876543210\",\n    \"pincode\": \"654321\",\n    \"email\": \"org@example.com\",\n    \"sourceType\": \"Referral\"\n  },\n  \"business\": {\n    \"name\": \"BusinessName\",\n    \"city\": \"BusinessCity\",\n    \"phone\": \"1112223334\",\n    \"pincode\": \"111222\",\n    \"email\": \"business@example.com\"\n  },\n  \"farming\": {\n    \"land\": \"100 acres\",\n    \"buffalo\": 5,\n    \"ox\": 3,\n    \"cows\": 10\n  },\n  \"student\": {\n    \"category\": \"undergraduate\",\n    \"institution\": {\n      \"name\": \"InstitutionName\",\n      \"city\": \"InstitutionCity\",\n      \"phone\": \"5556667777\",\n      \"pincode\": \"333444\"\n    }\n  },\n  \"problemCategories\": [\"infrastructure\", \"funding\"],\n  \"problemDescriptions\": [\"Lack of facilities\", \"Budget constraints\"],\n  \"status\": \"Pending\"\n}"
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  

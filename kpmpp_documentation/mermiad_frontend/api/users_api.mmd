@@ -1,0 +1,90 @@
+sequenceDiagram
+    participant User as User
+    participant API as API
+    participant DB as Database
+    participant Razorpay as Razorpay
+
+    %% User registration (expected)
+    User->>API: POST /users/signup
+    API->>DB: Validate user data
+    DB->>API: Return 200 OK (user created)
+    API->>User: Return 201 Created (User Registered)
+
+    %% User registration (unexpected - missing data)
+    User->>API: POST /users/signup
+    API->>DB: Validate user data
+    DB->>API: Return 400 Bad Request (missing data)
+    API->>User: Return 400 Bad Request (Missing Data)
+
+    %% User login (expected)
+    User->>API: POST /users/login
+    API->>DB: Verify user credentials
+    DB->>API: Return 200 OK (user data)
+    API->>User: Return 200 OK (JWT Token)
+
+    %% User login (unexpected - invalid credentials)
+    User->>API: POST /users/login
+    API->>DB: Verify user credentials
+    DB->>API: Return 401 Unauthorized (invalid credentials)
+    API->>User: Return 401 Unauthorized (Unauthorized)
+
+    %% User password reset request (expected)
+    User->>API: POST /users/forgot-password
+    API->>DB: Send password reset email
+    DB->>API: Return 200 OK (email sent)
+    API->>User: Return 200 OK (Reset Email Sent)
+
+    %% User password reset request (unexpected - email not found)
+    User->>API: POST /users/forgot-password
+    API->>DB: Check email in database
+    DB->>API: Return 404 Not Found (email not found)
+    API->>User: Return 404 Not Found (Email Not Found)
+
+    %% User resets password (expected)
+    User->>API: POST /users/reset-password
+    API->>DB: Reset user password
+    DB->>API: Return 200 OK (password reset)
+    API->>User: Return 200 OK (Password Reset)
+
+    %% User resets password (unexpected - invalid token)
+    User->>API: POST /users/reset-password
+    API->>DB: Validate reset token
+    DB->>API: Return 400 Bad Request (invalid token)
+    API->>User: Return 400 Bad Request (Invalid Token)
+
+    %% User initiates payment for subscription (expected)
+    User->>API: POST /pay
+    API->>Razorpay: Create payment order
+    Razorpay->>API: Return 200 OK (payment order ID)
+    API->>User: Return 200 OK (Payment Order ID)
+
+    %% User makes payment (expected)
+    User->>Razorpay: Complete payment
+    Razorpay->>API: Send webhook event (payment success)
+    API->>DB: Update subscription status
+    DB->>API: Return 200 OK (subscription updated)
+    API->>User: Return 200 OK (Subscription Activated)
+
+    %% User initiates payment for subscription (unexpected - payment failure)
+    User->>API: POST /pay
+    API->>Razorpay: Create payment order
+    Razorpay->>API: Return 400 Bad Request (payment failure)
+    API->>User: Return 400 Bad Request (Payment Failed)
+
+    %% User checks subscription status (expected)
+    User->>API: POST /users/complaint_status/
+    API->>DB: Fetch complaint status for user
+    DB->>API: Return 200 OK (complaint status)
+    API->>User: Return 200 OK (Complaint Status)
+
+    %% User checks subscription status (unexpected - complaint not found)
+    User->>API: POST /users/complaint_status/
+    API->>DB: Fetch complaint status for user
+    DB->>API: Return 404 Not Found (complaint not found)
+    API->>User: Return 404 Not Found (Complaint Not Found)
+
+    %% User logs out (expected)
+    User->>API: POST /users/logout
+    API->>DB: Invalidate user session
+    DB->>API: Return 200 OK (session invalidated)
+    API->>User: Return 200 OK (Logged Out)

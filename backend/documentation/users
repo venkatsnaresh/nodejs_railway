@@ -1,0 +1,171 @@
+# **User Authentication API Documentation**
+
+## **Endpoints Overview**
+| **Endpoint**          | **Method** | **Description**                            |
+|----------------------|-----------|--------------------------------|
+| `/signup`           | `POST`    | Register a new user           |
+| `/login`            | `POST`    | User login with email & password |
+| `/forgot-password`  | `POST`    | Generate reset password token |
+| `/reset-password`   | `POST`    | Reset password using token |
+
+---
+
+## **1️⃣ User Signup** 🚀
+### **Endpoint:** `/signup`
+### **Method:** `POST`
+### **Description:** Registers a new user in the system.
+### **Request Body:**
+```json
+{
+  "username": "JohnDoe",
+  "email": "johndoe@example.com",
+  "password": "securepassword"
+}
+```
+### **Response:** ✅
+```json
+{
+  "message": "User registered successfully",
+  "id": 1
+}
+```
+
+---
+
+## **2️⃣ User Login** 🔑
+### **Endpoint:** `/login`
+### **Method:** `POST`
+### **Description:** Authenticates a user.
+### **Request Body:**
+```json
+{
+  "email": "johndoe@example.com",
+  "password": "securepassword"
+}
+```
+### **Response:** ✅
+```json
+{
+  "message": "Login successful",
+  "user": {
+    "id": 1,
+    "email": "johndoe@example.com"
+  }
+}
+```
+### **Error Responses:** ❌
+| **Code** | **Message**                |
+|---------|----------------------------|
+| `400`   | Invalid email or password  |
+
+---
+
+## **3️⃣ Forgot Password** 🔄
+### **Endpoint:** `/forgot-password`
+### **Method:** `POST`
+### **Description:** Generates a password reset token.
+### **Request Body:**
+```json
+{
+  "email": "johndoe@example.com"
+}
+```
+### **Response:** ✅
+```json
+{
+  "message": "Reset token generated",
+  "resetToken": "random_generated_token_here"
+}
+```
+### **Error Responses:** ❌
+| **Code** | **Message**       |
+|---------|------------------|
+| `400`   | User not found   |
+| `500`   | Database error   |
+
+---
+
+## **4️⃣ Reset Password** 🔄
+### **Endpoint:** `/reset-password`
+### **Method:** `POST`
+### **Description:** Resets the user's password using a valid reset token.
+### **Request Body:**
+```json
+{
+  "token": "random_generated_token_here",
+  "newPassword": "newsecurepassword"
+}
+```
+### **Response:** ✅
+```json
+{
+  "message": "Password reset successfully"
+}
+```
+### **Error Responses:** ❌
+| **Code** | **Message**                      |
+|---------|----------------------------------|
+| `400`   | Invalid or expired token        |
+| `500`   | Database error                  |
+
+---
+
+## **🛠️ Testing with Postman**
+
+### **1️⃣ Signup User**
+- **Method:** `POST`
+- **URL:** `http://localhost:3000/signup`
+- **Headers:** `{ Content-Type: application/json }`
+- **Body:**
+```json
+{
+  "username": "JohnDoe",
+  "email": "johndoe@example.com",
+  "password": "securepassword"
+}
+```
+
+### **2️⃣ Login User**
+- **Method:** `POST`
+- **URL:** `http://localhost:3000/login`
+- **Body:**
+```json
+{
+  "email": "johndoe@example.com",
+  "password": "securepassword"
+}
+```
+
+### **3️⃣ Forgot Password**
+- **Method:** `POST`
+- **URL:** `http://localhost:3000/forgot-password`
+- **Body:**
+```json
+{
+  "email": "johndoe@example.com"
+}
+```
+
+### **4️⃣ Reset Password**
+- **Method:** `POST`
+- **URL:** `http://localhost:3000/reset-password`
+- **Body:**
+```json
+{
+  "token": "random_generated_token_here",
+  "newPassword": "newsecurepassword"
+}
+```
+
+---
+
+## **📊 Test Data (Users Table)**
+| **ID** | **Username** | **Email**              | **Password (Hashed)**         |
+|--------|-------------|----------------------|-----------------------------|
+| 1      | JohnDoe     | johndoe@example.com | `$2a$10$....` (hashed)     |
+| 2      | JaneSmith   | janesmith@test.com  | `$2a$10$....` (hashed)     |
+
+---
+
+✅ **Done! Now your API is documented and ready for testing!** 🚀
+

@@ -1,0 +1,18 @@
+graph TD;
+  A[🎭 User Logs In] -->|✔ Registered | B[📨 Submit Complaint];
+  A -->|❌ Not Registered | C[🔄 Redirect to Login/Signup];
+  B -->|✔ Subscribed | D[📌 View Complaint Status];
+  B -->|❌ Not Subscribed | E[⚠ Show Subscription Alert];
+  E -->|💳 Subscribe | G[💰 Payment Processing];
+  G -->|✅ Success | H[🔓 Unlock Subscription Features];
+  G -->|❌ Failed | I[🔁 Retry Payment];
+
+  style A fill:#ffcc00,stroke:#000,stroke-width:2px;
+  style B fill:#66ccff,stroke:#000,stroke-width:2px;
+  style C fill:#ff6666,stroke:#000,stroke-width:2px;
+  style D fill:#66ff66,stroke:#000,stroke-width:2px;
+  style E fill:#ff9966,stroke:#000,stroke-width:2px;
+  style G fill:#ffff66,stroke:#000,stroke-width:2px;
+  style H fill:#66ffcc,stroke:#000,stroke-width:2px;
+  style I fill:#ff6699,stroke:#000,stroke-width:2px;
+

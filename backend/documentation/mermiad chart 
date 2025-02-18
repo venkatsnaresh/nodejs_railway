@@ -1,0 +1,112 @@
+graph TD;
+    A[User Submits Complaint] -->|Validate Input| B{Complaint Validation};
+    B -- Valid --> C[Store Complaint in Database];
+    B -- Invalid --> D[Reject Submission];
+    C -->|Notify Admin| E[Admin Reviews Complaint];
+    E -->|Approve| F[Assign to Concerned Department];
+    E -->|Reject| G[Update Status to Rejected];
+    F --> H[Department Investigates];
+    H -->|Resolved| I[Update Status to Resolved];
+    H -->|Needs More Info| J[Request More Details];
+    J --> E;
+    I --> K[Notify User];
+
+    subgraph Users
+        U1[User Registers]
+        U2[User Submits Complaint]
+        U3[User Checks Complaint Status]
+    end
+    
+    subgraph Admins
+        A1[Admin Logs In]
+        A2[Admin Reviews Complaints]
+        A3[Admin Updates Status]
+    end
+    
+    subgraph Complaints
+        C1[Pending]
+        C2[Under Review]
+        C3[Resolved]
+        C4[Rejected]
+    end
+
+
+
+
+
+
+
+
+
+
+
+
+//tight coupled
+
+
+
+
+
+
+
+graph TD;
+  
+  %% User Complaints Flow
+  U1[User Submits Complaint] -->|POST /complaints| C1[Validate Input]
+  C1 -- Valid --> C2[Store Complaint in Database]
+  C1 -- Invalid --> C3[Reject Submission]
+  C2 -->|Response: Success| U2[User Notified]
+  C2 -->|Notify Admin| A1[Admin Reviews Complaint]
+  A1 -->|PUT /complaints/update| A2[Admin Updates Complaint Status]
+  A2 -->|Notify User| U3[User Checks Complaint Status]
+
+  %% Admin Panel
+  A3[Admin Logs In] -->|GET /admin| AD1[Fetch Admin Data]
+  A4[Admin Views Complaints] -->|GET /complaints| AD2[Retrieve Complaints List]
+  A5[Admin Updates Status] -->|PUT /complaints/update| AD3[Modify Complaint Status]
+  A6[Admin Deletes Complaint] -->|DELETE /complaints/delete/:id| AD4[Remove Complaint from DB]
+
+  %% Complaint Status
+  U4[User Checks Complaint Status] -->|POST /complaints/userdata| CS1[Fetch Complaint by ID]
+  CS1 -->|Return Status| U5[Display Complaint Status]
+
+  %% Subscription Flow
+  S1[User Checks Subscription] -->|GET /subscriptions/check| SUB1[Fetch Subscription Status]
+  S2[User Initiates Subscription] -->|POST /subscriptions/subscribe| SUB2[Create Payment Order]
+  SUB2 -->|Order Created| S3[User Completes Payment]
+  S3 -->|Webhook Callback| W1[Verify Razorpay Payment]
+  W1 -- Valid Signature --> W2[Activate Subscription in DB]
+  W1 -- Invalid Signature --> W3[Reject Payment]
+  W2 -->|Subscription Activated| S4[Notify User]
+
+  %% API Subgraphs
+  subgraph Users
+      U1
+      U2
+      U3
+      U4
+      U5
+  end
+
+  subgraph Admins
+      A1
+      A2
+      A3
+      A4
+      A5
+      A6
+  end
+
+  subgraph Complaints
+      C1
+      C2
+      C3
+      CS1
+  end
+
+  subgraph Subscriptions
+      S1
+      S2
+      S3
+      S4
+  end
