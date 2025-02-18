@@ -12,7 +12,7 @@ npm-debug.log
 # Ignore OS-specific files
 .DS_Store
 
-testing 
+testing/
 
 
-kpmpp_documentation
+kpmpp_documentation/
